@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/nip/transfer/simulate-failure"
+  },
+  "response": {
+    "status": 503,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "status": "error",
+      "code": "NIBSS_UNAVAILABLE",
+      "message": "NIBSS NIP service is temporarily unavailable"
+    }
+  }
+}
