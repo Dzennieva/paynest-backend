@@ -1,0 +1,63 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+
+# ──── Transfer Service ─
+  transfer-service:
+    runs-on: ubuntu-latest
+
+    if: |
+      contains(github.event.pull_request.changed_files, 'services/transfer-service') ||
+      github.event_name == 'workflow_dispatch
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: services/transfer-service/package-lock.json
+
+      - name: Install dependencies
+        working-directory: services/transfer-service
+        run: npm ci
+
+      - name: Run tests
+        working-directory: services/transfer-service
+        run: npm test
+
+        
+  # ──── Notification Service ─
+
+  notifications-service:
+    runs-on: ubuntu-latest
+
+    if: |
+      contains(github.event.pull_request.changed_files, 'services/notifications-service') ||
+      github.event_name == 'workflow_dispatch'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: services/notifications-service/package-lock.json
+
+      - name: Install dependencies
+        working-directory: services/notifications-service
+        run: npm ci
+
+      - name: Run tests
+        working-directory: services/notifications-service
+        run: npm test

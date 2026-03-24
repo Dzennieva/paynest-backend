@@ -1,0 +1,141 @@
+name: Deploy to Dev
+
+on:
+  push:
+    branches: [main]
+    paths:
+    - 'services/transfer-service/**'
+    - 'services/notifications-service/**'
+
+env:
+  AWS_REGION: eu-west-1
+
+jobs:
+  build-transfer-service:
+    name: Build and Transfer Service
+    runs-on: ubuntu-latest
+
+   # Only run if transfer-service files changed in this push
+    if: |
+      contains(join(github.event.commits.*.modified, ','), 'services/transfer-service') ||
+      contains(join(github.event.commits.*.added, ','), 'services/transfer-service')
+
+  # These permissions are required for OIDC authentication
+    permissions:
+      id-token: write   # allows the job to request an OIDC token from GitHub
+      contents: read    # allows the job to read repository contents
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+ # Authenticate with AWS using OIDC
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Transfer Service Image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build \
+            --target production \
+            -t $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG  \
+            -t $ECR_REGISTRY/paynest/transfer-service:latest \
+            -f services/transfer-service/
+
+      - name: Scan Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.login-ecr.outputs.registry }}/paynest/transfer-service:${{ github.sha }}
+          format: 'table'
+          exit-code: '1'
+          severity: 'HIGH,CRITICAL'
+          vulnerability-type: 'os,library'
+
+      - name: Push Transfer Service Image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker push $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG
+          docker push $ECR_REGISTRY/paynest/transfer-service:latest
+
+      - name: Write Job Summary
+        run: |
+          echo "### Transfer Service image built and pushed to ECR with tag ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Image URI:** ${{ steps.login-ecr.outputs.registry }}/paynest/transfer-service:${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.actor }} >> $GITHUB_STEP_SUMMARY
+          echo "**Commit Author:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+
+#  # ──── Notification Service ─
+  notifications-service:
+    name: Build Notifications Service
+    runs-on: ubuntu-latest
+
+   # Only run if notifications-service files changed in this push
+    if: |
+      conains(join(github.event.commits.*.modified, ','), 'services/notifications-service') ||
+      contains(join(github.event.commits.*.added, ','), 'services/notifications-service')
+
+    permissions:
+      id-token: write   # allows the job to request an OIDC token from GitHub
+      contents: read    # allows the job to read repository contents
+
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build Notifications Service Image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}    
+        run: |
+          docker build \
+            --target production \
+            -t $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG  \
+            -t $ECR_REGISTRY/paynest/notifications-service:latest \
+            -f services/notifications-service/
+
+      - name: Scan Image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.login-ecr.outputs.registry }}/paynest/notifications-service:${{ github.sha }}
+          format: 'table'
+          exit-code: '1'
+          severity: 'HIGH,CRITICAL'
+          vulnerability-type: 'os,library'
+
+      - name: Push Notifications Service Image to ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker push $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG
+          docker push $ECR_REGISTRY/paynest/notifications-service:latest
+
+      - name: Write Job Summary
+        run: |
+          echo "### Notifications Service image built and pushed to ECR with tag ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Image URI:** ${{ steps.login-ecr.outputs.registry }}/paynest/notifications-service:${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.actor }} >> $GITHUB_STEP_SUMMARY
+          echo "**Commit Author:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
