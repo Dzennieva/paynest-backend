@@ -83,7 +83,7 @@ jobs:
 
    # Only run if notifications-service files changed in this push
     if: |
-      conains(join(github.event.commits.*.modified, ','), 'services/notifications-service') ||
+      contains(join(github.event.commits.*.modified, ','), 'services/notifications-service') ||
       contains(join(github.event.commits.*.added, ','), 'services/notifications-service')
 
     permissions:
