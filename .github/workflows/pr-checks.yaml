@@ -12,7 +12,7 @@ jobs:
 
     if: |
       contains(github.event.pull_request.changed_files, 'services/transfer-service') ||
-      github.event_name == 'workflow_dispatch
+      github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout code
