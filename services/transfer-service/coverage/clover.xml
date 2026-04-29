@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1774279003108" clover="3.2.0">
-  <project timestamp="1774279003108" name="All files">
+<coverage generated="1777397421229" clover="3.2.0">
+  <project timestamp="1777397421229" name="All files">
     <metrics statements="68" coveredstatements="38" conditionals="36" coveredconditionals="21" methods="10" coveredmethods="6" elements="114" coveredelements="65" complexity="0" loc="68" ncloc="68" packages="1" files="3" classes="3"/>
-    <file name="config.js" path="/home/jennifer/projects/services/transfer-service/src/config.js">
+    <file name="config.js" path="/home/jennifer/projects/paynest-backend/services/transfer-service/src/config.js">
       <metrics statements="6" coveredstatements="5" conditionals="8" coveredconditionals="5" methods="1" coveredmethods="1"/>
       <line num="4" count="1" type="stmt"/>
       <line num="7" count="5" type="stmt"/>
@@ -11,7 +11,7 @@
       <line num="11" count="5" type="stmt"/>
       <line num="14" count="1" type="stmt"/>
     </file>
-    <file name="routes.js" path="/home/jennifer/projects/services/transfer-service/src/routes.js">
+    <file name="routes.js" path="/home/jennifer/projects/paynest-backend/services/transfer-service/src/routes.js">
       <metrics statements="26" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <line num="5" count="0" type="stmt"/>
       <line num="6" count="0" type="stmt"/>
@@ -40,7 +40,7 @@
       <line num="87" count="0" type="stmt"/>
       <line num="94" count="0" type="stmt"/>
     </file>
-    <file name="transfer.js" path="/home/jennifer/projects/services/transfer-service/src/transfer.js">
+    <file name="transfer.js" path="/home/jennifer/projects/paynest-backend/services/transfer-service/src/transfer.js">
       <metrics statements="36" coveredstatements="33" conditionals="18" coveredconditionals="16" methods="6" coveredmethods="5"/>
       <line num="4" count="1" type="stmt"/>
       <line num="5" count="1" type="stmt"/>
