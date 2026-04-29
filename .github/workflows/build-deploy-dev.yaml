@@ -16,9 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
    # Only run if transfer-service files changed in this push
-    if: |
-      contains(join(github.event.commits.*.modified, ','), 'services/transfer-service') ||
-      contains(join(github.event.commits.*.added, ','), 'services/transfer-service')
+    # if: |
+    #   contains(join(github.event.commits.*.modified, ','), 'services/transfer-service') ||
+    #   contains(join(github.event.commits.*.added, ','), 'services/transfer-service')
 
   # These permissions are required for OIDC authentication
     permissions:
