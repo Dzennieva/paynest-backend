@@ -1,7 +1,6 @@
 // Entry point for the transfer-service
 // Starts the HTTP server and wires middleware and routes together
 // transfer-service — PayNest P2P payment engine
-// transfer-service — PayNest P2P payment engine
 
 const express = require("express");
 const helmet = require("helmet");
@@ -57,6 +56,4 @@ app.listen(config.PORT, () => {
 });
 
 module.exports = app; // exported for testing
-
-
 
