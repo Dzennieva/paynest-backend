@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1777721292302" clover="3.2.0">
-  <project timestamp="1777721292302" name="All files">
+<coverage generated="1777730207245" clover="3.2.0">
+  <project timestamp="1777730207246" name="All files">
     <metrics statements="34" coveredstatements="32" conditionals="21" coveredconditionals="16" methods="6" coveredmethods="5" elements="61" coveredelements="53" complexity="0" loc="34" ncloc="34" packages="1" files="2" classes="2"/>
     <file name="config.js" path="/home/jennifer/projects/paynest-backend/services/notifications-service/src/config.js">
       <metrics statements="6" coveredstatements="5" conditionals="6" coveredconditionals="3" methods="1" coveredmethods="1"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1777720881042" clover="3.2.0">
-  <project timestamp="1777720881042" name="All files">
+<coverage generated="1777730200308" clover="3.2.0">
+  <project timestamp="1777730200309" name="All files">
     <metrics statements="68" coveredstatements="38" conditionals="36" coveredconditionals="21" methods="10" coveredmethods="6" elements="114" coveredelements="65" complexity="0" loc="68" ncloc="68" packages="1" files="3" classes="3"/>
     <file name="config.js" path="/home/jennifer/projects/paynest-backend/services/transfer-service/src/config.js">
       <metrics statements="6" coveredstatements="5" conditionals="8" coveredconditionals="5" methods="1" coveredmethods="1"/>
