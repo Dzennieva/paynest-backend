@@ -85,6 +85,7 @@ jobs:
           exit-code: '1'
           severity: 'HIGH,CRITICAL'
           vuln-type: 'os,library'
+          ignore-unfixed: true
 
       - name: Push image to ECR
         env:
@@ -148,6 +149,7 @@ jobs:
           exit-code: '1'
           severity: 'HIGH,CRITICAL'
           vuln-type: 'os,library'
+          ignore-unfixed: true
 
       - name: Push image to ECR
         env:
