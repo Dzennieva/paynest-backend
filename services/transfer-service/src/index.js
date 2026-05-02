@@ -56,7 +56,4 @@ app.listen(config.PORT, () => {
 	);
 });
 
-module.exports = app; // exported for testing
-
-
-
+module.exports = app; // exported for testing purposes
