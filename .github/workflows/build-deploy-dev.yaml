@@ -73,9 +73,7 @@ jobs:
         run: |
           docker build \
             --target production \
-            -t $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG \
-            -t $ECR_REGISTRY/paynest/transfer-service:latest \
-            services/transfer-service/
+            -t $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG
 
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -93,7 +91,6 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker push $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG
-          docker push $ECR_REGISTRY/paynest/transfer-service:latest
 
       - name: Write job summary
         env:
@@ -137,9 +134,7 @@ jobs:
         run: |
           docker build \
             --target production \
-            -t $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG \
-            -t $ECR_REGISTRY/paynest/notifications-service:latest \
-            services/notifications-service/
+            -t $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG
 
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -157,7 +152,6 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker push $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG
-          docker push $ECR_REGISTRY/paynest/notifications-service:latest
 
       - name: Write job summary
         env:
