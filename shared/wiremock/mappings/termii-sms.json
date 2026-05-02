@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/sms/send"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "code": "ok",
+      "message_id": "TERMII-MSG-LOCAL-001",
+      "message": "Successfully Sent",
+      "balance": 9999,
+      "user": "PayNest Test"
+    }
+  }
+}

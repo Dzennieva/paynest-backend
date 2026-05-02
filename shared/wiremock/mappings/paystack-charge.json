@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/transaction/initialize"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "status": true,
+      "message": "Authorization URL created",
+      "data": {
+        "authorization_url": "https://checkout.paystack.com/mock-local",
+        "access_code": "mock_access_code_local",
+        "reference": "mock_ref_local_001"
+      }
+    }
+  }
+}

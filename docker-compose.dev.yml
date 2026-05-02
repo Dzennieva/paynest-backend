@@ -1,0 +1,77 @@
+version: '3.9'
+
+networks:
+  paynest-local:
+    driver: bridge
+
+# ── Services ─
+
+services:
+  # ── Wiremock ─
+  wiremock:
+    image: wiremock/wiremock
+    container_name: paynest-wiremock
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./shared/wiremock/mappings:/home/wiremock/mappings
+    command:
+      - "--verbose"
+      - "--global-response-templating"
+    networks:
+      - paynest-local
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/__admin/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ── Transfer-service ─
+  transfer-service:
+    build:
+      context: ./services/transfer-service
+      dockerfile: Dockerfile
+    container_name: paynest-transfer-service
+    ports:
+      - '3001:3001'
+    environment:
+      PORT: 3001
+      NODE_ENV: development
+
+      NIBSS_BASE_URL: http://wiremock:8080
+      NIBSS_API_KEY: test-nibss-key-local
+
+      PAYSTACK_BASE_URL: http://wiremock:8080
+      PAYSTACK_SECRET_KEY: test-paystack-key-local
+
+      NOTIFICATIONS_SERVICE_URL: http://notifications-service:3002
+    depends_on:
+      wiremock:
+        condition: service_healthy
+      notifications-service:
+          condition: service_healthy
+    networks:
+      - paynest-local
+    restart: on-failure
+
+    # ── Notifications-service ─
+  notifications-service:
+    build:
+      context: ./services/notifications-service
+      dockerfile: Dockerfile
+    container_name: paynest-notifications-service
+    ports:
+      - '3002:3002'
+    environment:
+      PORT: 3002
+      NODE_ENV: development
+
+      TERMII_BASE_URL: http://wiremock:8080
+      TERMII_API_KEY: test-termii-key-local
+    depends_on:
+      wiremock:
+        condition: service_healthy
+    networks:
+      - paynest-local
+    restart: on-failure

@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/push/send"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "messageId": "FCM-LOCAL-001",
+      "status": "delivered",
+      "message": "Push notification queued successfully"
+    }
+  }
+}
