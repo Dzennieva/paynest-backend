@@ -85,7 +85,7 @@ jobs:
           exit-code: '1'
           severity: 'HIGH,CRITICAL'
           vuln-type: 'os,library'
-          ignore-unfixed: true
+          trivyignores: 'services/transfer-service/.trivyignore'
 
       - name: Push image to ECR
         env:
@@ -149,7 +149,7 @@ jobs:
           exit-code: '1'
           severity: 'HIGH,CRITICAL'
           vuln-type: 'os,library'
-          ignore-unfixed: true
+          trivyignores: 'services/notifications-service/.trivyignore'
 
       - name: Push image to ECR
         env:
