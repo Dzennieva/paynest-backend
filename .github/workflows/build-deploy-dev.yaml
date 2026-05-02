@@ -73,7 +73,8 @@ jobs:
         run: |
           docker build \
             --target production \
-            -t $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG
+            -t $ECR_REGISTRY/paynest/transfer-service:$IMAGE_TAG \
+            services/transfer-service/
 
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -134,7 +135,8 @@ jobs:
         run: |
           docker build \
             --target production \
-            -t $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG
+            -t $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG \
+            services/notifications-service/
 
       - name: Scan image with Trivy
         uses: aquasecurity/trivy-action@master
@@ -144,7 +146,7 @@ jobs:
           exit-code: '1'
           severity: 'HIGH,CRITICAL'
           vuln-type: 'os,library'
-          trivyignores: 'services/notifications-service/.trivyignore'
+          trivyignores: 'services/transfer-service/.trivyignore'
 
       - name: Push image to ECR
         env:
@@ -152,7 +154,6 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker push $ECR_REGISTRY/paynest/notifications-service:$IMAGE_TAG
-
 
       - name: Write job summary
         env:
