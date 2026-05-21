@@ -1,1 +1,0 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"audit_logs","Source":"../../modules/s3","Dir":"../../modules/s3"},{"Key":"rds","Source":"../../modules/rds","Dir":"../../modules/rds"},{"Key":"vpc","Source":"../../modules/vpc","Dir":"../../modules/vpc"}]}
