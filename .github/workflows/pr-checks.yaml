@@ -21,7 +21,7 @@ jobs:
       - name: Set up Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: services/transfer-service/package-lock.json
 
@@ -50,7 +50,7 @@ jobs:
       - name: Set up Nodejs
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
           cache: 'npm'
           cache-dependency-path: services/notifications-service/package-lock.json
 
